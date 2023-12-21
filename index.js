@@ -5,3 +5,11 @@ class Ship{
         this.sunk = sunk;
     }
 }
+
+function hit(ship){
+    ship.hit++;
+}
+
+function isSunk(ship){
+    return ship.hit === ship.length;
+}
