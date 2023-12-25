@@ -24,8 +24,8 @@ class Coordinates {
 
     }
 
-    changeCoordinateStatus(coordinates, used = true) {
-        coordinates.used = used;
+    changeCoordinateStatus(used = true) {
+        this.used = used;
     }
 }
 
@@ -56,16 +56,16 @@ function isSunk(ship) {
     return ship.hit === ship.length;
 }
 
-function receiveAttack(coordinates) {
-    let gameboard = gameBoards.filter(o => o.coordinates = coordinates && !o.coordinates.isused)
+function receiveAttack(num) {
+    let gameboard = humanGameBoards.find(o => o.coordinates.num == num && !o.coordinates.isused)
     if (gameboard) {
-        if (gameBoard.ship) {
+        if (gameboard.ship) {
             hit(gameBoard.ship);
             let gameover = gameBoards.every(o => isSunk(o.ship));
             alert('gameover');
             // alert(`won by ${attacker.name}`);
         }
-        gameBoard.coordinates.changeCoordinateStatus(coordinates, true);
+        gameboard.coordinates.changeCoordinateStatus(true);
 
     }
 
@@ -90,4 +90,20 @@ function createHumanBoard(humanGameBoards) {
 
         humanBoard.append(div);
     });
+
+    let childrens = humanBoard.querySelectorAll('div');
+    console.log(childrens)
+
+    Array.from(childrens).forEach(c => {
+        console.log(c);
+        c.addEventListener('click', attackOnOpposition )
+    })
+
 }
+
+function attackOnOpposition(e) {
+    let num = e.target.className.substring(1);
+    receiveAttack(num);
+}
+
+
