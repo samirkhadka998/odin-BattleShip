@@ -1,0 +1,11 @@
+div#humanBoard {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    width: 40%;
+}
+
+#humanBoard div {
+    border: 2px solid;
+    padding: 20%;
+    text-align: center;
+}

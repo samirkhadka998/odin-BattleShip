@@ -18,9 +18,8 @@ class GameBoard {
 }
 
 class Coordinates {
-    constructor(row, column, used = false) {
-        this.row = row;
-        this.column = column;
+    constructor(num, used = false) {
+        this.num = num;
         this.used = used;
 
     }
@@ -29,13 +28,21 @@ class Coordinates {
         coordinates.used = used;
     }
 }
-let ship1 = new Ship(3, 0, false);
-let gameBoard1 = new GameBoard(ship1, new Coordinates(0, 0));
 
-let ship2 = new Ship(3, 0, false);
-let gameBoard2 = new GameBoard(ship1, new Coordinates(5, 0));
+class Player {
+    constructor(name) {
+        this.name = name;
+    }
+}
 
-let gameBoards = [gameBoard1, gameBoard2];
+
+let humanGameBoards = [];
+for(let i = 0 ; i < 100 ; i++){
+    let coordinate = new Coordinates(i, false);
+    humanGameBoards.push(new GameBoard(null,coordinate));
+    
+}
+createHumanBoard(humanGameBoards);
 
 
 
@@ -50,15 +57,37 @@ function isSunk(ship) {
 }
 
 function receiveAttack(coordinates) {
-        let gameboard = gameBoards.filter(o => o.coordinates = coordinates && !o.coordinates.isused)
-        if (gameboard) {
+    let gameboard = gameBoards.filter(o => o.coordinates = coordinates && !o.coordinates.isused)
+    if (gameboard) {
+        if (gameBoard.ship) {
             hit(gameBoard.ship);
-
             let gameover = gameBoards.every(o => isSunk(o.ship));
             alert('gameover');
+            // alert(`won by ${attacker.name}`);
         }
+        gameBoard.coordinates.changeCoordinateStatus(coordinates, true);
+
+    }
 
 
+
+
+}
+
+function ComputerMove(gameBoard) {
+    let com = new Player("Computer");
+    receiveAttack(gameBoard.coordinates, com)
     
+}
 
+//Dom
+function createHumanBoard(humanGameBoards) {
+    let humanBoard = document.querySelector('#humanBoard');
+    humanGameBoards.forEach(element => {
+        let div = document.createElement('div');
+        div.className = `h${element.coordinates.num}`;
+        div.textContent = element.coordinates.num;
+
+        humanBoard.append(div);
+    });
 }
