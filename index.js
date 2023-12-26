@@ -13,7 +13,6 @@ class GameBoard {
     }
 
     placeShip() {
-        console.log("Ship is moved to " + this.coordinates);
     }
 }
 
@@ -35,9 +34,35 @@ class Player {
     }
 }
 
+let combos = [];
+let start = 1, end = 10;
+while (end < 101) {
+    let combo = [];
+    for (let index = start; index <= end; index++) {
+        combo.push(index);
+    }
+    combos.push(combo);
+    start = start + 10;
+    end += 10;
+
+}
+
+start = 1, end = 91;
+while (end < 101) {
+    let combo = [];
+    for (let index = start; index <= end; index+=10) {
+        combo.push(index);
+    }
+    combos.push(combo);
+    start++;
+    end++;
+
+}
+console.log(combos);
+
 
 let humanGameBoards = [];
-for(let i = 0 ; i < 100 ; i++){
+for(let i = 1 ; i <= 100 ; i++){
     let coordinate = new Coordinates(i, false);
     humanGameBoards.push(new GameBoard(null,coordinate));
     
@@ -92,18 +117,20 @@ function createHumanBoard(humanGameBoards) {
     });
 
     let childrens = humanBoard.querySelectorAll('div');
-    console.log(childrens)
 
     Array.from(childrens).forEach(c => {
-        console.log(c);
         c.addEventListener('click', attackOnOpposition )
     })
 
 }
 
 function attackOnOpposition(e) {
-    let num = e.target.className.substring(1);
-    receiveAttack(num);
+    if(!e.target.className.includes('hit')){
+        let num = e.target.className.substring(1);
+        e.target.classList.add('hit');
+        receiveAttack(num);
+    }
+   
 }
 
 

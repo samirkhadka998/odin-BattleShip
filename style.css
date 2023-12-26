@@ -9,3 +9,7 @@ div#humanBoard {
     padding: 20%;
     text-align: center;
 }
+
+.hit{
+    background: pink;
+}
