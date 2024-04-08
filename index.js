@@ -176,7 +176,9 @@ function checkValidInput() {
             }
             else {
                 let rangePara = document.querySelector('.rangePara');
-                rangePara.textContent = `Enter ${range.length} range`
+                rangePara.textContent = `Enter unused ${range.length} box/s range`
+                inputEnd.value = inputStart.value = 0;
+
 
             }
 
@@ -210,7 +212,7 @@ function createHumanBoard(humanGameBoards) {
 
 function attackOnOpposition(e) {
     if (!e.target.className.includes('hit') && boardClick) {
-        let num = e.target.className.substring(1);
+        let num = e.target.className.match(/\d+/).map(Number)[0];
         e.target.classList.add('hit');
         receiveAttack(num);
     }
