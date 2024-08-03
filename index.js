@@ -99,6 +99,14 @@ function receiveAttack(num) {
         });
       }
 
+      let sunkShipsCount = document.querySelectorAll('.sunk');
+      if(sunkShipsCount.length == 14){
+        alert('gameover')
+        resetGame();
+
+      }
+
+
     //   let gameover = gameBoards.every((o) => isSunk(o.ship));
     //   alert("gameover");
       // alert(`won by ${attacker.name}`);
@@ -202,7 +210,6 @@ function createHumanBoard(humanGameBoards) {
   humanGameBoards.forEach((element) => {
     let div = document.createElement("div");
     div.className = `h${element.coordinates.num}`;
-    div.textContent = element.coordinates.num;
 
     humanBoard.append(div);
   });
@@ -230,4 +237,11 @@ function sunkShips(e) {
 
 function shipSunk(shipSet) {
   return shipSet.every((b) => b.ship.hit === 1);
+}
+
+const resetGame = () => {
+    let humanBoard = document.querySelector("#humanBoard");
+    humanBoard.innerHTML = '';
+    createHumanBoard(humanGameBoards);
+
 }
