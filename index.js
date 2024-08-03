@@ -75,13 +75,32 @@ function isSunk(ship) {
 
 function receiveAttack(num) {
   let gameboard = humanGameBoards.find(
-    (o) => o.coordinates.num == num && !o.coordinates.isused
+    (o) => o.coordinates.num == num && o.coordinates.isused
   );
   if (gameboard) {
     if (gameboard.ship) {
-      hit(gameBoard.ship);
-      let gameover = gameBoards.every((o) => isSunk(o.ship));
-      alert("gameover");
+      hit(gameboard.ship);
+      let shipSet = null;
+
+      // Labeled loop
+      outerLoop: for (const innerShipArr of shipCoverage) {
+        for (const singleShip of innerShipArr) {
+          if (singleShip === gameboard) {
+            shipSet = innerShipArr;
+            break outerLoop; // Break out of both loops
+          }
+        }
+      }
+
+      if (shipSunk(shipSet)) {
+        shipSet.forEach((s) => {
+          let div = document.getElementsByClassName(`h${s.coordinates.num}`)[0];
+          sunkShips(div);
+        });
+      }
+
+    //   let gameover = gameBoards.every((o) => isSunk(o.ship));
+    //   alert("gameover");
       // alert(`won by ${attacker.name}`);
     }
     gameboard.coordinates.changeCoordinateStatus(true);
@@ -201,4 +220,14 @@ function attackOnOpposition(e) {
     e.target.classList.add("hit");
     receiveAttack(num);
   }
+}
+
+function sunkShips(e) {
+  e.classList.remove("hit");
+  e.classList.remove("blue");
+  e.classList.add("sunk");
+}
+
+function shipSunk(shipSet) {
+  return shipSet.every((b) => b.ship.hit === 1);
 }

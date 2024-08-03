@@ -20,3 +20,10 @@ div#humanBoard {
 .blue{
     background : blue;
 }
+
+.sunk{
+    background: red;
+    border: 2px solid red !important;
+    pointer-events: none;
+
+}
